@@ -4,10 +4,8 @@ import ErrorMessage from "../components/ErrorMessage";
 import { useForm } from "react-hook-form";
 import { useContext, useState } from "react";
 import { AuthContext } from "@/context/authContext";
-import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
-
   const { register, handleSubmit } = useForm();
   const [error, setError] = useState(null);
   const { signIn } = useContext(AuthContext);
@@ -16,23 +14,19 @@ export default function LoginPage() {
     const email = data.email;
     const password = data.password;
 
-    try {
-      
-      if (!email || !password) {
-        throw new Error("Por favor, preencha todos os campos!");
-      } else {
-        setError(null);
-      }
-
-      await signIn({ email, password }).catch((err) => {
-        console.log(err)
-        throw new Error(err.response.data.error);
-      });
-
-    } catch (err: any) {
-      console.log(err);
-      setError(err.message);
+    if (!email || !password) {
+      throw new Error("Por favor, preencha todos os campos!");
+    } else {
+      setError(null);
     }
+
+    await signIn({ email, password }).catch((err) => {
+      if (err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError(err.response.data.error);
+      }
+    });
   };
 
   return (

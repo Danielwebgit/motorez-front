@@ -6,7 +6,9 @@ export default function veiculosPage()
 {
     return (
         <Layout>
-            Importando os veículos
+            <div className="flex mt-40 justify-center w-full">
+                Subir arquivo aqui
+            </div>
         </Layout>
     )
 }

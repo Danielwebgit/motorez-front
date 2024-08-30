@@ -26,7 +26,7 @@ const NavMenu = ({ isOpen, toggleMenu }: NavMenuProps) => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
-      <ul className="flex flex-col md:flex-row md:space-x-4 text-white pt-16 md:pt-0 w-full items-center justify-center gap-2">
+      <ul className="flex flex-col justify-end md:flex-row md:space-x-4 text-white pt-16 md:pt-0 w-full items-center gap-2">
         <li className='flex'><Link href="/dashboard" className="block py-4 px-8 ">Início</Link></li>
         <li className='flex'><Link href="/veiculos/importar" className="block py-4 px-8 ">Importar</Link></li>
         <li className='flex'><Link href="/veiculos" className="block py-4 px-8 ">Meus veículos</Link></li>

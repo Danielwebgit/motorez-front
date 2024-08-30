@@ -1,4 +1,6 @@
+import apiService from '@/Services/ApiService';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 type NavMenuProps = {
@@ -7,6 +9,21 @@ type NavMenuProps = {
 };
 
 const NavMenu = ({ isOpen, toggleMenu }: NavMenuProps) => {
+
+  const router = useRouter();
+
+  const handleLogout = () => {
+
+    apiService.authLogout().then(() => {
+
+      router.push('/logout')
+      
+    }).catch((e) => {
+    
+    })
+
+  }
+
   return (
     <nav
       className={`
@@ -32,7 +49,7 @@ const NavMenu = ({ isOpen, toggleMenu }: NavMenuProps) => {
         <li className='flex'><Link href="/veiculos" className="block py-4 px-8 ">Meus veículos</Link></li>
         <li className='flex'><Link href="#" className="block py-4 px-8 ">Serviços</Link></li>
         <li className='flex'><Link href="#" className="block py-4 px-8 ">Contato</Link></li>
-        <li className='flex'><Link href="#" className="block py-4 px-8 ">Sair</Link></li>
+        <li onClick={() => handleLogout()} className='block py-4 px-8 cursor-pointer'>Sair</li>
       </ul>
     </nav>
   );

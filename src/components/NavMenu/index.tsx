@@ -19,7 +19,7 @@ const NavMenu = ({ isOpen, toggleMenu }: NavMenuProps) => {
       router.push('/logout')
       
     }).catch((e) => {
-    
+      router.push('/logout')
     })
 
   }

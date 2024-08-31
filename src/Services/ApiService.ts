@@ -1,6 +1,7 @@
 import ApiAuth from "./ApiAuth";
 import ApiAuthToken from "./ApiAuthToken";
 import { CancelToken } from 'axios';
+import ApiUploadFIles from "./ApiUploadFIles";
 
 export const authLogin = (email: any, password: any) => {
     const dataLogin = { email, password }
@@ -19,12 +20,16 @@ export const fetchAllTenants = (url: string) => {
     return ApiAuthToken.get(url)
 } 
 
+export const uploadFile = (formData: any) => {
+    return ApiUploadFIles.post('/api/v1/vehicles/file-imports-data-vehicles', formData)
+} 
+
 const apiService = {
-    
+
     authLogin,
     authLogout,
     fetchAllVehicles,
-
+    uploadFile,
 
     // Routes Group of Main
     fetchAllTenants

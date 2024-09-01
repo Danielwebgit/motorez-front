@@ -6,6 +6,7 @@ import apiService from "@/Services/ApiService";
 import { useEffect, useRef, useState } from "react";
 import getBaseUrl from "../../../config";
 import axios, { CancelTokenSource } from "axios";
+import { DeleteIcon, EditIcon } from "@/icons";
 
 interface IVehicle {
     id: number;
@@ -92,6 +93,10 @@ export default function veiculosImportarPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
                 {data?.map((vehicle) => (
                     <div key={vehicle.id} className="flex flex-col shadow-md shadow-gray-900 p-4 rounded-lg">
+                        <div className="flex gap-4 w-full justify-end">
+                            <button > <DeleteIcon className="w-5 h-5"/> </button>
+                            <button ><EditIcon className="w-5 h-5"/></button>
+                        </div>
                         <div className="text-lg">Marca: {vehicle.brand}</div>
                         <div className="">Modelo: {vehicle.model}</div>
                         <div className="">Ano: {vehicle.year}</div>

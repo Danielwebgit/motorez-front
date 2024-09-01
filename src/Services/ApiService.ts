@@ -44,7 +44,6 @@ export const deleteSupplier = (supplierId: number) => {
     return ApiAuthToken.delete(`/api/v1/suppliers/delete/${supplierId}`);
 }
 
-
 export const fetchAllTenants = (url: string) => {
     return ApiAuthToken.get(url)
 } 

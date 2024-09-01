@@ -30,7 +30,7 @@ const NavMenu = ({ isOpen, toggleMenu }: NavMenuProps) => {
         ${isOpen ? "block h-screen" : "hidden"} 
         md:block 
         absolute top-0 left-0 w-full 
-        bg-stone-950 
+        bg-mzheader
         md:relative md:h-auto 
         transition-transform duration-300 ease-in-out
       `}

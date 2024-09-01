@@ -9,7 +9,7 @@ const Header = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 w-full justify-between items-center bg-black">
+    <header className="fixed top-0 left-0 w-full justify-between items-center bg-mzheader">
       <div className="flex w-full items-center h-16 justify-between">
         <div className="text-white text-lg font-bold ml-4">Motorez</div>
         <button 

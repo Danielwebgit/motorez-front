@@ -6,7 +6,8 @@ import getBaseUrl from "../../../config";
 export default function FileUploadComponent() {
   const [file, setFile] = useState<File | null>(null);
   const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const [message, setMessage] = useState('');
+  const [registeredCode, setRegisteredCode] = useState([]);
   const [suppliers, setSuppliers] = useState();
   const [formValues, setFormValues] = useState({suppliers_id: ''})
 
@@ -59,7 +60,9 @@ export default function FileUploadComponent() {
 
       apiService.uploadFile(formData, formValues.suppliers_id).then((response) => {
 
-
+        setMessage(response.data.msg);
+        console.log(response.data.registered_codes)
+        setRegisteredCode(response.data.registered_codes);
       }).catch((e) => {
 
 
@@ -96,6 +99,27 @@ export default function FileUploadComponent() {
           Enviar Arquivo
         </button>
       </form>
+
+      <div className='flex w-full mt-2'>{message}</div>
+
+      <div className='flex flex-col border border-1 rounded-lg p-4'>
+
+        {
+          registeredCode.length > 0 && (
+            <span>Veículos com códigos já cadastrados</span>
+          )
+        }
+        {
+          registeredCode?.map((code) => {
+            return (
+              <div className='flex'>
+                <div className='text-sm'>{code}</div>
+              </div>
+            )
+          })
+        }
+      </div>
+
     </div>
   );
 }

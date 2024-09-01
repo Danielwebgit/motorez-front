@@ -13,6 +13,10 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      colors: {
+        mzbutton: 'rgba(36, 27, 105, var(--tw-bg-opacity, 1))',
+        mzheader: 'rgba(36, 27, 105, var(--tw-bg-opacity, 1))'
+      }
     },
   },
   plugins: [],

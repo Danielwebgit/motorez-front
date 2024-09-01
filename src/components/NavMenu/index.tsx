@@ -47,6 +47,7 @@ const NavMenu = ({ isOpen, toggleMenu }: NavMenuProps) => {
         <li className='flex'><Link href="/dashboard" className="block py-4 px-8 ">Início</Link></li>
         <li className='flex'><Link href="/veiculos/importar" className="block py-4 px-8 ">Importar</Link></li>
         <li className='flex'><Link href="/veiculos" className="block py-4 px-8 ">Meus veículos</Link></li>
+        <li className='flex'><Link href="/fornecedores" className="block py-4 px-8 ">Meus fornecedores</Link></li>
         <li className='flex'><Link href="#" className="block py-4 px-8 ">Serviços</Link></li>
         <li className='flex'><Link href="#" className="block py-4 px-8 ">Contato</Link></li>
         <li onClick={() => handleLogout()} className='block py-4 px-8 cursor-pointer'>Sair</li>

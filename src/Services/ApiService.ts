@@ -16,12 +16,41 @@ export const fetchAllVehicles = (url: string, cancelToken?: CancelToken) => {
     return ApiAuthToken.get(url, { cancelToken });
 }
 
+export const storeVehicles = (formSupplier: string) => {
+    return ApiAuthToken.post('/api/v1/vehicles/store', formSupplier);
+}
+
+export const updateVehicles = (formVehicle: string, vehicleId: string) => {
+    return ApiAuthToken.post(`/api/v1/vehicles/update/${vehicleId}`, formVehicle);
+}
+
+export const deleteVehicles = (vehicleId: number) => {
+    return ApiAuthToken.delete(`/api/v1/vehicles/delete/${vehicleId}`);
+}
+
+export const fetchAllsuppliers = (url: string) => {
+    return ApiAuthToken.get(url);
+}
+
+export const storeSupplier = (formSupplier: string) => {
+    return ApiAuthToken.post('/api/v1/suppliers/store', formSupplier);
+}
+
+export const updateSupplier = (formSupplier: string, supplierId: string) => {
+    return ApiAuthToken.post(`/api/v1/suppliers/update/${supplierId}`, formSupplier);
+}
+
+export const deleteSupplier = (supplierId: number) => {
+    return ApiAuthToken.delete(`/api/v1/suppliers/delete/${supplierId}`);
+}
+
+
 export const fetchAllTenants = (url: string) => {
     return ApiAuthToken.get(url)
 } 
 
-export const uploadFile = (formData: any) => {
-    return ApiUploadFIles.post('/api/v1/vehicles/file-imports-data-vehicles', formData)
+export const uploadFile = (formData: any, suppliersId: string) => {
+    return ApiUploadFIles.post(`/api/v1/vehicles/file-imports-data-vehicles?suppliers_id=${suppliersId}`, formData)
 } 
 
 const apiService = {
@@ -29,8 +58,14 @@ const apiService = {
     authLogin,
     authLogout,
     fetchAllVehicles,
+    storeVehicles,
+    updateVehicles,
+    deleteVehicles,
     uploadFile,
-
+    fetchAllsuppliers,
+    storeSupplier,
+    updateSupplier,
+    deleteSupplier,
     // Routes Group of Main
     fetchAllTenants
 }

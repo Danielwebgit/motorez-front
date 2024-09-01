@@ -1,10 +1,33 @@
 import apiService from '@/Services/ApiService';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import SelectSuppliers from '../SelectSuppliers';
+import getBaseUrl from "../../../config";
 
 export default function FileUploadComponent() {
   const [file, setFile] = useState<File | null>(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [suppliers, setSuppliers] = useState();
+  const [formValues, setFormValues] = useState({suppliers_id: ''})
+
+  function fetchAllsuppliers(url: string){
+    
+    apiService.fetchAllsuppliers(url).then((response) => {
+      setSuppliers(response.data)
+    })
+
+  }
+
+  useEffect(() => {
+    const url = getBaseUrl() + "/api/v1/suppliers?page=1";
+    fetchAllsuppliers(url);
+
+  }, [])
+
+  const handleChangeSuppliers = async (supplier: any) => {
+    console.log(supplier.value)
+    setFormValues({...formValues,'suppliers_id': supplier.value})
+  }
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files ? e.target.files[0] : null;
@@ -34,7 +57,7 @@ export default function FileUploadComponent() {
 
     try {
 
-      apiService.uploadFile(formData).then((response) => {
+      apiService.uploadFile(formData, formValues.suppliers_id).then((response) => {
 
 
       }).catch((e) => {
@@ -51,6 +74,11 @@ export default function FileUploadComponent() {
     <div className="container mx-auto mt-8 p-4 max-w-lg bg-gray-100 rounded shadow">
       <h2 className="text-xl font-bold mb-4">Adicionar dados dos veículos para o estoque</h2>
       <form onSubmit={handleSubmit}>
+
+        <div className='mb-4'>
+          <SelectSuppliers options={suppliers}
+                      onChange={handleChangeSuppliers} />
+        </div>
         <div className="mb-4">
           <label className="block mb-2 font-medium text-gray-700">Selecione o Arquivo</label>
           <input

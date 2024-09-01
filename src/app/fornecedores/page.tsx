@@ -30,12 +30,12 @@ export default function FornecedoresPage() {
         setVisible(false)
     }
 
-    const handleActionSuppliers = () =>{
+    const handleActionSuppliers = () => {
         fetchAllsuppliers(url)
     }
 
     const handleSupplierDelete = (supplierId: number) => {
-       
+
         Swal.fire({
             title: "Excluir fornecedor?",
             text: "Tem certeza que deseja excluir?",
@@ -44,16 +44,16 @@ export default function FornecedoresPage() {
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "Sim!",
-          }).then((result: any) => {
+        }).then((result: any) => {
             if (result.isConfirmed) {
-              apiService.deleteSupplier(supplierId).then(() => {
-                
-                Swal.fire("Deletado!", ".", "success");
-                
-                fetchAllsuppliers(url);
-              }).catch(console.error);
+                apiService.deleteSupplier(supplierId).then((response) => {
+
+                    Swal.fire(response.data.msg, ".", "success");
+
+                    fetchAllsuppliers(url);
+                }).catch(console.error);
             }
-          });
+        })
     }
 
 
@@ -66,12 +66,12 @@ export default function FornecedoresPage() {
     return (
         <Layout>
             <div className="flex w-full items-center mt-20 flex-col">
-                
+
                 <div className="w-full max-w-4xl">
 
-                <div className="flex w-full">
-                    <button onClick={handleVisibleModal} className="flex bg-green-600 rounded-lg pl-4 pr-4 pt-2 pb-2 text-white font-bold mb-4">Adicionar novo</button>
-                </div>
+                    <div className="flex w-full">
+                        <button onClick={handleVisibleModal} className="flex bg-green-600 rounded-lg pl-4 pr-4 pt-2 pb-2 text-white font-bold mb-4">Adicionar novo</button>
+                    </div>
 
                     <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
                         <thead>
@@ -103,7 +103,7 @@ export default function FornecedoresPage() {
                     </table>
                 </div>
             </div>
-            <SuppliersModals visible={visible} handleNoVisible={handleNoVisible} handleActionSuppliers={handleActionSuppliers}/>
+            <SuppliersModals visible={visible} handleNoVisible={handleNoVisible} handleActionSuppliers={handleActionSuppliers} />
         </Layout>
     )
 }

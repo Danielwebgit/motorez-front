@@ -7,6 +7,10 @@ import { useEffect, useRef, useState } from "react";
 import getBaseUrl from "../../../config";
 import axios, { CancelTokenSource } from "axios";
 import { DeleteIcon, EditIcon } from "@/icons";
+import Swal from "sweetalert2";
+import VehiclesModals from "@/components/Models/VehiclesModals";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface IVehicle {
     id: number;
@@ -20,7 +24,7 @@ interface IVehicle {
     price: string;
     date: string;
     optionals: string;
-    suppliers_id: number;
+    suppliers_name: string;
     created_at: string;
     updated_at: string;
 }
@@ -28,13 +32,14 @@ interface IVehicle {
 export default function veiculosImportarPage() {
     const [data, setData] = useState<IVehicle[]>();
     const [brandOrModel, setBrandOrModel] = useState('');
-
+    const [visible, setVisible] = useState(false);
     const [fuel, setFuel] = useState('');
     const [doors, setDoors] = useState('');
     const cancelTokenSource = useRef<CancelTokenSource | null>(null);
+    const [url, setUrl] = useState('');
 
     const setSearch = (e: any) => {
-       
+
         const updatedBrandOrModel = e.brandOrModel ?? brandOrModel;
         const updatedFuel = e.fuel ?? fuel;
         const updatedDoors = e.door ?? doors;
@@ -43,7 +48,7 @@ export default function veiculosImportarPage() {
         setFuel(updatedFuel);
         setDoors(updatedDoors);
 
-       
+
         let urlSearch = `${getBaseUrl()}/api/v1/vehicles?page=1`;
 
         if (updatedBrandOrModel) {
@@ -56,14 +61,14 @@ export default function veiculosImportarPage() {
             urlSearch += `&doors=${updatedDoors === 'Todos' ? '' : updatedDoors}`;
         }
 
-       
+
         if (cancelTokenSource.current) {
             cancelTokenSource.current.cancel("Operation canceled due to new request.");
         }
 
         cancelTokenSource.current = axios.CancelToken.source();
 
-      
+
         fetchAllVehicles(urlSearch, cancelTokenSource.current.token);
     };
 
@@ -72,21 +77,62 @@ export default function veiculosImportarPage() {
             const response = await apiService.fetchAllVehicles(url, cancelTokenSource);
             setData(response.data.data);
         } catch (e) {
-         console.log(e)
+            console.log(e)
         }
+    }
+
+    const handleDeleteVehicle = (vehicleId: number) => {
+        Swal.fire({
+            title: "Excluir Veículo?",
+            text: "Tem certeza que deseja excluir?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sim!",
+        }).then((result: any) => {
+            if (result.isConfirmed) {
+                apiService.deleteVehicles(vehicleId).then((response) => {
+
+                    Swal.fire(response.data.msg, ".", "success");
+
+                    fetchAllVehicles(url, null);
+                }).catch(console.error);
+            }
+        });
+    }
+
+    const handleVisibleModal = () => {
+        setVisible(true)
+
+    }
+
+    const handleNoVisible = () => {
+        setVisible(false)
+    }
+
+    const handleActionVehicles = () => {
+        fetchAllVehicles(url, null)
+    }
+
+    const handleEditVehicle = (vehicleData: IVehicle) => {
+        localStorage.setItem("vehicleData", JSON.stringify(vehicleData))
+        handleVisibleModal();
     }
 
     useEffect(() => {
         const url = getBaseUrl() + "/api/v1/vehicles?page=1";
+        setUrl(url)
         fetchAllVehicles(url, null);
     }, []);
 
     return (
         <Layout>
+            <ToastContainer />
             <div className="flex mt-20">
-                <SearchsVehicles 
-                    brandOrModel={brandOrModel} 
-                    setSearch={setSearch} 
+                <SearchsVehicles
+                    brandOrModel={brandOrModel}
+                    setSearch={setSearch}
                 />
             </div>
 
@@ -94,8 +140,8 @@ export default function veiculosImportarPage() {
                 {data?.map((vehicle) => (
                     <div key={vehicle.id} className="flex flex-col shadow-md shadow-gray-900 p-4 rounded-lg">
                         <div className="flex gap-4 w-full justify-end">
-                            <button > <DeleteIcon className="w-5 h-5"/> </button>
-                            <button ><EditIcon className="w-5 h-5"/></button>
+                            <button onClick={() => handleDeleteVehicle(vehicle.id)} > <DeleteIcon className="w-5 h-5" /> </button>
+                            <button onClick={() => handleEditVehicle(vehicle)}><EditIcon className="w-5 h-5" /></button>
                         </div>
                         <div className="text-lg">Marca: {vehicle.brand}</div>
                         <div className="">Modelo: {vehicle.model}</div>
@@ -104,12 +150,13 @@ export default function veiculosImportarPage() {
                         <div className="">Combustível: {vehicle.fuel}</div>
                         <div className="">Kilometragem: {vehicle.mileage}</div>
                         <div className="flex w-full justify-between">
-                            <div className="">Fornecedor: {vehicle.suppliers_id}</div>
+                            <div className="">Fornecedor: {vehicle.suppliers_name}</div>
                             <div className="text-2xl"> R$ {vehicle.price}</div>
                         </div>
                     </div>
                 ))}
             </div>
+            <VehiclesModals visible={visible} handleNoVisible={handleNoVisible} handleActionVehicles={handleActionVehicles} />
         </Layout>
     );
 }

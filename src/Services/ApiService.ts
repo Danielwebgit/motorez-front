@@ -20,8 +20,8 @@ export const storeVehicles = (formSupplier: string) => {
     return ApiAuthToken.post('/api/v1/vehicles/store', formSupplier);
 }
 
-export const updateVehicles = (formVehicle: string, vehicleId: string) => {
-    return ApiAuthToken.post(`/api/v1/vehicles/update/${vehicleId}`, formVehicle);
+export const updateVehicle = (formVehicle: any, vehicleId: string) => {
+    return ApiAuthToken.put(`/api/v1/vehicles/update/${vehicleId}`, formVehicle);
 }
 
 export const deleteVehicles = (vehicleId: number) => {
@@ -58,7 +58,7 @@ const apiService = {
     authLogout,
     fetchAllVehicles,
     storeVehicles,
-    updateVehicles,
+    updateVehicle,
     deleteVehicles,
     uploadFile,
     fetchAllsuppliers,

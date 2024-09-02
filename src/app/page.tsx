@@ -89,15 +89,11 @@ export default function LoginPage() {
       <div className="flex flex-col shadow-lg border p-4 w-full lg:w-1/2 m-4 justify-center shadow-blue-800">
         <h3>Links para mudar na url ;)</h3>
         <div className="flex">
-          <Link href="http://localhost:3000/">Principal </Link>
-        </div>
-    
-        <div className="flex">
-          <Link href="http://viviane.localhost:3000/">Subdomínio - 1 </Link>
+          <Link href="https://viviane.webrd3.com.br/">Subdomínio - 1 </Link>
         </div>
 
         <div className="flex">
-          <Link href="http://daniel.localhost:3000/">Subdomínio - 2 </Link>
+          <Link href="https://daniel.webrd3.com.br/">Subdomínio - 2 </Link>
         </div>
 
         <hr />

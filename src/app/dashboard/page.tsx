@@ -5,7 +5,7 @@ import apiService from "@/Services/ApiService";
 import { useEffect, useState } from "react";
 import getBaseUrl from "../../../config";
 
-export default function dashboardPage() {
+export default function DashboardPage() {
 
     const [data, setData] = useState([]);
 

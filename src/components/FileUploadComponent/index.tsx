@@ -110,9 +110,9 @@ export default function FileUploadComponent() {
           )
         }
         {
-          registeredCode?.map((code) => {
+          registeredCode?.map((code, index: number) => {
             return (
-              <div className='flex'>
+              <div key={index} className='flex'>
                 <div className='text-sm'>{code}</div>
               </div>
             )

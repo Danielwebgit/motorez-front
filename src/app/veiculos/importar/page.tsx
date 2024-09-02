@@ -3,7 +3,7 @@
 import FileUploadComponent from "@/components/FileUploadComponent";
 import Layout from "@/containers/Layout";
 
-export default function veiculosPage()
+export default function VeiculosPage()
 {
     return (
         <Layout>

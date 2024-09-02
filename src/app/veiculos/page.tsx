@@ -31,7 +31,7 @@ interface IVehicle {
     updated_at: string;
 }
 
-export default function veiculosImportarPage() {
+export default function VeiculosImportarPage() {
     const [data, setData] = useState<IVehicle[]>();
     const [brandOrModel, setBrandOrModel] = useState('');
     const [visible, setVisible] = useState(false);

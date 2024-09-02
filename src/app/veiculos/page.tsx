@@ -11,9 +11,11 @@ import Swal from "sweetalert2";
 import VehiclesModals from "@/components/Models/VehiclesModals";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Pagination from "@/components/Pagination";
 
 interface IVehicle {
     id: number;
+    code: number;
     brand: string;
     model: string;
     year: number;
@@ -37,6 +39,7 @@ export default function veiculosImportarPage() {
     const [doors, setDoors] = useState('');
     const cancelTokenSource = useRef<CancelTokenSource | null>(null);
     const [url, setUrl] = useState('');
+    const [pagination, setPagination] = useState<Array<{ label: string; url: string | null; active: boolean }> | null>(null);
 
     const setSearch = (e: any) => {
 
@@ -72,10 +75,32 @@ export default function veiculosImportarPage() {
         fetchAllVehicles(urlSearch, cancelTokenSource.current.token);
     };
 
-    async function fetchAllVehicles(url: string, cancelTokenSource: any) {
+    const listUpdateWithLink = (e: any) => {
+        if (e !== null) {
+          const url = e;
+    
+          fetchAllVehicles(url, null);
+        }
+        return;
+      };
+
+    function fetchAllVehicles(url: string, cancelTokenSource: any) {
         try {
-            const response = await apiService.fetchAllVehicles(url, cancelTokenSource);
-            setData(response.data.data);
+            apiService.fetchAllVehicles(url, cancelTokenSource).then((response) => {
+                const dados: any = response?.data.data;
+
+                const data: any = [];
+
+                for (var chave in dados) {
+                    if (dados.hasOwnProperty(chave)) {
+                        data.push(dados[chave]);
+                    }
+                }
+
+                setData(data);
+                setPagination(response?.data.links);
+            })
+            
         } catch (e) {
             console.log(e)
         }
@@ -143,6 +168,7 @@ export default function veiculosImportarPage() {
                             <button onClick={() => handleDeleteVehicle(vehicle.id)} > <DeleteIcon className="w-5 h-5" /> </button>
                             <button onClick={() => handleEditVehicle(vehicle)}><EditIcon className="w-5 h-5" /></button>
                         </div>
+                        <div className="text-lg">Código: {vehicle.code}</div>
                         <div className="text-lg">Marca: {vehicle.brand}</div>
                         <div className="">Modelo: {vehicle.model}</div>
                         <div className="">Ano: {vehicle.year}</div>
@@ -157,6 +183,7 @@ export default function veiculosImportarPage() {
                 ))}
             </div>
             <VehiclesModals visible={visible} handleNoVisible={handleNoVisible} handleActionVehicles={handleActionVehicles} />
+            <Pagination pagination={pagination} listUpdateWithLink={listUpdateWithLink}/>
         </Layout>
     );
 }

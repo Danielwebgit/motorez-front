@@ -30,3 +30,7 @@
 >`Tela de Veículos`
 - Na tela de veículos, é possível listar os veículos, atualizar um veículo já adicionado (apenas a marca e o modelo podem ser alterados), e também excluir um veículo.
 ![Screenshot: Lista dos Veículos](docs/img/lista-dos-veiculos.png)
+
+
+## Por favor, considere comentar a linha 8 do docker-compose -> platform: linux/arm64/v8, quando for rodar esse projeto em arquitetura diferente de arm64/v8, se seu computador já tiver o Node V18 instalada 
+você simplesmente instala as dependencias e depois axecuta o comando ---> npm run dev
